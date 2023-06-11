@@ -6,6 +6,9 @@ from config.db import database
 
 from schemas.Exam import examEntity
 from schemas.Test import testEntity
+from schemas.Faculty import facultysEntity
+
+from config.mailing import send_mail
 
 custom = APIRouter()
 
@@ -33,3 +36,48 @@ async def agree_for_test(testid, facultyid):
     else:
         print("Here")
         {}
+
+@custom.get("/addition_notif/{examid}")
+async def send_exam_added_notification(examid):
+    examid = ObjectId(examid)
+    exam = database['exam'].find_one({"_id": examid})
+    if exam:
+        exam = examEntity(exam)
+        group = exam["group"]
+
+        faculties = database['faculty'].find(filter={
+            "group": group
+        })
+        if faculties:
+            faculties = facultysEntity(faculties)
+            for faculty in faculties:
+                email = faculty["facultyEmail"]
+                subject = "THEINVIG - NEW EXAM ADDED"
+                message = f"New exam, {exam['examName']} has been added to THEINVIG. Check it out to give your response."
+                send_mail(email, subject, message)
+        return "Success"
+    return "Failed"
+
+@custom.get("/final_notif/{examid}")
+async def send_exam_finalised_notification(examid):
+    examid = ObjectId(examid)
+    exam = database['exam'].find_one({"_id": examid})
+    if exam:
+        exam = examEntity(exam)
+        group = exam["group"]
+
+        faculties = database['faculty'].find(filter={
+            "group": group
+        })
+
+        if faculties:
+            faculties = facultysEntity(faculties)
+            for faculty in faculties:
+                email = faculty["facultyEmail"]
+                subject = "THEINVIG - SCHEDULE FINALISED"
+                message = f"Schedule finalised, {exam['examName']}. Check it out to give your response."
+                send_mail(email, subject, message)
+        return "Success"
+    return "Failed"
+
+
