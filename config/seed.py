@@ -49,7 +49,7 @@ def seed_faculty(faculty_count: int):
             "facultyImageURL": IMAGE,
             "facultyPhoneNumber": "1234567890",
             "department": department,
-            "groups": ["xyz"],
+            "group": 1,
             "designation": "Professor",
         }
         data.append(item)
@@ -111,6 +111,7 @@ def seed_exam(exam_count):
             "deadline": deadline,
             "numberOfResponses": random.randint(0,len(faculties)),
             "createdBy": admins[random.randint(0,len(admins)-1)]["id"],
+            "group": 1
         }
         data.append(item)
     database["exam"].insert_many(data)
@@ -121,13 +122,15 @@ def seed_test():
     exams = examsEntity(database["exam"].find())
     for exam in exams:
         department = exam["department"]
+        group = exam["group"]
         test_count = exam["numberOfCourses"]
         courses = coursesEntity(database["course"].find(filter={
             "department": department
         }))
-        courses = random.sample(courses, test_count)
+        courses = random.sample(courses, min(len(courses), test_count))
         faculties = facultysEntity(database["faculty"].find(filter={
-            "department": department
+            "department": department,
+            "group": group,
         }))
         if len(faculties) == 0:
             break
@@ -135,8 +138,9 @@ def seed_test():
         for course in courses:
             requiredFaculties = random.randint(1, len(faculties))
             signedUpFaculties = [faculty["id"] for faculty in faculties] # everyone in the department signed up
+            signedUpFaculties = random.sample(signedUpFaculties, random.randint(0,len(signedUpFaculties)-1))
             if exam["isFinalised"]:
-                finalisedFaculties = random.sample(signedUpFaculties, requiredFaculties)
+                finalisedFaculties = random.sample(signedUpFaculties, min(len(signedUpFaculties), requiredFaculties))
             else:
                 finalisedFaculties = []
             item: Test = {
@@ -155,7 +159,7 @@ def seed_test():
 
 def seed(collection=None):
     if collection == "admin":
-        seed_admin(5)
+        seed_admin(2)
     elif collection == "faculty":
         seed_faculty(5)
     elif collection == "course":
@@ -165,8 +169,8 @@ def seed(collection=None):
     elif collection == "test":
         seed_test()
     else:
-        count = 5
-        seed_admin(count*1)
+        count = 10
+        seed_admin(count)
         seed_faculty(count*3)
         seed_course(count*2)
         seed_exam(count)

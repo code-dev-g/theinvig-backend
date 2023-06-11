@@ -10,5 +10,6 @@ class Exam(BaseModel):
     isFinalised: bool
     numberOfCourses: int
     numberOfResponses: int
-    description: int
+    description: str
     deadline: datetime.datetime
+    group: int

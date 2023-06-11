@@ -46,3 +46,13 @@ async def delete_test(testID):
         return testEntity(document)
     else:
         return {}
+    
+# READ
+@test.get('/examid/{examid}')
+async def get_test_under_exam(examid):
+
+    document = database[COLLECTION_NAME].find({"examId": ObjectId(examid)})
+    if document:
+        return testsEntity(document)
+    else:
+        return {}

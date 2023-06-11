@@ -7,17 +7,19 @@ from routes.Faculty import faculty
 from routes.Course import course
 from routes.Exam import exam
 from routes.Test import test
+from routes.Custom import custom
 
 app = FastAPI()
 
 # delete_all()
-# seed()
+# seed("admin")
 
 app.include_router(admin, prefix='/admin', tags=["Admin"])
 app.include_router(faculty, prefix='/faculty', tags=["Faculty"])
 app.include_router(course, prefix='/course', tags=["Course"])
 app.include_router(exam, prefix='/exam', tags=["Exam"])
 app.include_router(test, prefix='/test', tags=["Test"])
+app.include_router(custom, prefix='/custom', tags=["Custom"])
 
 @app.get("/")
 async def root():

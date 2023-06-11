@@ -7,7 +7,7 @@ def facultyEntity(faculty) -> dict:
         "facultyPhoneNumber": faculty["facultyPhoneNumber"],
         "department": faculty["department"],
         "designation": faculty["designation"],
-        "groups": faculty["groups"],
+        "group": faculty["group"],
     }
 
 def facultysEntity(entity) -> list:

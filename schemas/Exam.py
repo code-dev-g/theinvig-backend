@@ -11,6 +11,7 @@ def examEntity(exam) -> dict:
         "numberOfCourses": exam["numberOfCourses"],
         "numberOfResponses": exam["numberOfResponses"],
         "deadline": exam["deadline"],
+        "group": exam["group"],
     }
 
 def examsEntity(entity) -> list:

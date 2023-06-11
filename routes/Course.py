@@ -46,3 +46,11 @@ async def delete_course(courseID):
         return courseEntity(document)
     else:
         return {}
+    
+@course.get('/department/{department}')
+async def get_course_by_department(department):
+    document = database[COLLECTION_NAME].find_one({"department": department})
+    if document:
+        return courseEntity(document)
+    else:
+        return {}

@@ -15,7 +15,7 @@ faculty = APIRouter()
 @faculty.post('/')
 async def create_faculty(faculty: Faculty):
     document = database[COLLECTION_NAME].insert_one(dict(faculty))
-    return facultysEntity(database[COLLECTION_NAME].find_one({"_id":document.inserted_id}))
+    return facultyEntity(database[COLLECTION_NAME].find_one({"_id":document.inserted_id}))
 
 # READ
 @faculty.get('/')
@@ -43,5 +43,13 @@ async def delete_faculty(facultyemail):
     document = await database[COLLECTION_NAME].find_one_and_delete({"facultyEmail": facultyemail})
     if document:
         return facultyEntity(document)
+    else:
+        return {}
+    
+@faculty.get('/group/{group}')
+async def get_faculty_by_group(group: int):
+    document = database[COLLECTION_NAME].find({"group": group})
+    if document:
+        return facultysEntity(document)
     else:
         return {}

@@ -7,4 +7,4 @@ class Faculty(BaseModel):
     facultyPhoneNumber: str
     department: str
     designation: str
-    groups: list
+    group: int
