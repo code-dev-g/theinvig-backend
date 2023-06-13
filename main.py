@@ -12,7 +12,7 @@ from routes.Custom import custom
 app = FastAPI()
 
 # delete_all()
-# seed("admin")
+# seed("admin", 1)
 
 app.include_router(admin, prefix='/admin', tags=["Admin"])
 app.include_router(faculty, prefix='/faculty', tags=["Faculty"])

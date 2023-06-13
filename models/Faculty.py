@@ -8,3 +8,4 @@ class Faculty(BaseModel):
     department: str
     designation: str
     group: int
+    invigilationHours: int

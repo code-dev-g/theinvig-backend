@@ -8,6 +8,7 @@ def facultyEntity(faculty) -> dict:
         "department": faculty["department"],
         "designation": faculty["designation"],
         "group": faculty["group"],
+        "invigilationHours": faculty["invigilationHours"]
     }
 
 def facultysEntity(entity) -> list:

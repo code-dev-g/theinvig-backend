@@ -23,7 +23,7 @@ departments = ["ABC","DEF","XYZ"]
 def seed_admin(admin_count: int):
     names = []
     for i in range(1, admin_count+1):
-        names.append(f"TestAdmin{i}")
+        names.append(f"testadmin{i}")
     data = []
     for name in names:
         item: Admin = {
@@ -39,7 +39,7 @@ def seed_admin(admin_count: int):
 def seed_faculty(faculty_count: int):
     names = []
     for i in range(1, faculty_count+1):
-        names.append(f"TestFaculty{i}")
+        names.append(f"testfaculty{i}")
     data = []
     for name in names:
         department = random.sample(departments, 1)[0]
@@ -51,6 +51,7 @@ def seed_faculty(faculty_count: int):
             "department": department,
             "group": 1,
             "designation": "Professor",
+            "invigilationHours": 0
         }
         data.append(item)
     database["faculty"].insert_many(data)
@@ -157,15 +158,15 @@ def seed_test():
             database["test"].insert_many(data)
     return testsEntity(database["test"].find())
 
-def seed(collection=None):
+def seed(collection=None, count=None):
     if collection == "admin":
-        seed_admin(2)
+        seed_admin(count)
     elif collection == "faculty":
-        seed_faculty(5)
+        seed_faculty(count)
     elif collection == "course":
-        seed_course(5)
+        seed_course(count)
     elif collection == "exam":
-        seed_exam(5)
+        seed_exam(count)
     elif collection == "test":
         seed_test()
     else:
