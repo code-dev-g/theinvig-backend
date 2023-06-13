@@ -9,7 +9,10 @@ from routes.Exam import exam
 from routes.Test import test
 from routes.Custom import custom
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 # delete_all()
 # seed("admin", 1)
